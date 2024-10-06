@@ -9,11 +9,15 @@ class Conference extends Model
 {
     use HasFactory;
 
-    // Pridėkite šią savybę, kad leistumėte masinį priskyrimą
     protected $fillable = [
-        'title',         // Konferencijos pavadinimas
-        'description',   // Aprašymas
-        'date',         // Data
-        'location',     // Vieta
+        'title',
+        'description',
+        'date',
+        'location',
     ];
+
+    public function clients()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }

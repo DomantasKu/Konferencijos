@@ -1,39 +1,27 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Conference;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ConferenceController extends Controller
 {
     public function index()
     {
-        $conferences = Conference::all(); // Gauti visas konferencijas
-        return view('conferences.index', compact('conferences')); // Pateikti duomenis į view
-    }
-    
+        $user = Auth::user();
 
-    public function create()
-    {
-        return view('conferences.create');
-    }
+        if ($user->role == 'client') {
+            $conferences = Conference::where('date', '>=', now())->get();
+            return view('conferences.client_index', compact('conferences'));
+        } elseif ($user->role == 'employee') {
+            $conferences = Conference::all();
+            return view('conferences.employee_index', compact('conferences'));
+        } elseif ($user->role == 'admin') {
+            $conferences = Conference::all();
+            return view('conferences.admin_index', compact('conferences'));
+        }
 
-    public function store(Request $request)
-    {
-        // Validacija
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'date' => 'required|date',
-            'location' => 'required|string|max:255',
-        ]);
-    
-        // Masinis priskyrimas
-        Conference::create($request->all());
-    
-        return redirect()->route('conferences.index')
-                         ->with('success', 'Konferencija sėkmingai pridėta.');
+        return abort(403); // Nepakankamos teisės
     }
-    
-    }
+}

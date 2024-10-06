@@ -1,12 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Konferencijos</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <title>Konferencijų registracija</title>
+    <!-- Add your styles and scripts -->
 </head>
 <body>
+    <nav>
+        <!-- Other navigation links -->
+        <a href="{{ url('/conferences') }}">Konferencijos</a>
+        
+        <!-- Logout form -->
+        <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+            @csrf
+            <button type="submit">Atsijungti</button>
+        </form>
+    </nav>
+
     <div class="container">
         @yield('content')
     </div>
