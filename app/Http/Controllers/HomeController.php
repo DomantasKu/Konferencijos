@@ -1,28 +1,27 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Middleware;
 
-use Illuminate\Http\Request;
+use Closure;
+use Illuminate\Support\Facades\Auth;
 
-class HomeController extends Controller
+class Admin
 {
     /**
-     * Create a new controller instance.
+     * Handle an incoming request.
      *
-     * @return void
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
      */
-    public function __construct()
+    public function handle($request, Closure $next)
     {
-        $this->middleware('auth');
-    }
+        // Check if the user is authenticated and has admin role
+        if (Auth::check() && Auth::user()->hasRole('admin')) {
+            return $next($request);
+        }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
-    {
-        return view('home');
+        // Redirect to home if not admin
+        return redirect('/home')->with('error', 'You do not have admin access.');
     }
 }

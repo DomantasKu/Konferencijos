@@ -16,8 +16,9 @@ class Conference extends Model
         'location',
     ];
 
-    public function clients()
+    // Define the relationship with Participant model
+    public function participants()
     {
-        return $this->belongsToMany(User::class);
+        return $this->hasMany(Participant::class);
     }
 }
