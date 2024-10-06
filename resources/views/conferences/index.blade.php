@@ -29,6 +29,9 @@
                         </a>
                     </button>
 
+                    <!-- Edit button to edit the conference -->
+                    <a href="{{ route('conferences.edit', $conference->id) }}" class="btn btn-warning">Edit</a>
+
                     <!-- Remove button with confirmation -->
                     <form action="{{ route('conferences.destroy', $conference->id) }}" method="POST" class="d-inline">
                         @csrf
