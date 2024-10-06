@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>Register for {{ $conference->title }}</h1>
+    <h1>Join the conference: {{ $conference->title }}</h1>
 
     <form method="POST" action="{{ route('conferences.register', $conference->id) }}">
         @csrf
@@ -38,7 +38,7 @@
         <div class="row mb-0">
             <div class="col-md-6 offset-md-4">
                 <button type="submit" class="btn btn-primary">
-                    Register
+                    Join
                 </button>
             </div>
         </div>

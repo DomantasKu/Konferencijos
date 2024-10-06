@@ -25,7 +25,7 @@
                     <!-- Register button to register for the conference -->
                     <button type="button" class="btn btn-primary">
                         <a href="{{ route('conferences.showRegistrationForm', $conference->id) }}" style="color: white; text-decoration: none;">
-                            Register
+                            Join
                         </a>
                     </button>
 
