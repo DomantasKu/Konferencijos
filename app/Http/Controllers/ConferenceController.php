@@ -21,7 +21,7 @@ class ConferenceController extends Controller
         return view('conferences.create');
     }
 
-    // Method to store a new conference
+
     public function store(Request $request)
     {
         $request->validate([
@@ -31,9 +31,10 @@ class ConferenceController extends Controller
             'location' => 'required|string|max:255',
         ]);
 
-        // Create a new conference
+        // Create the conference
         Conference::create($request->all());
 
+        // Flash a success message to the session
         return redirect()->route('conferences.index')->with('success', 'Conference created successfully!');
     }
 

@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\ConferenceController;
 
+Route::get('/', function () {
+    return redirect()->route('conferences.index'); // Redirect root to conferences index
+});
 
 Route::get('/conferences', [ConferenceController::class, 'index'])->name('conferences.index');
 Route::get('/conferences/create', [ConferenceController::class, 'create'])->name('conferences.create');

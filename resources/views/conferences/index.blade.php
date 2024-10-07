@@ -3,46 +3,54 @@
 @section('content')
 <div class="container">
     <h1>Conferences</h1>
-    
-    <a href="{{ route('conferences.create') }}" class="btn btn-success mb-3">Create New Conference</a>
-    
-    @if($conferences->isEmpty())
-        <div class="alert alert-warning" role="alert">
-            There are currently no conferences planned.
-        </div>
-    @else
-        <div class="list-group">
-            @foreach($conferences as $conference)
-                <div class="list-group-item">
-                    <h3>{{ $conference->title }}</h3>
-                    <p>{{ $conference->description }}</p>
-                    <p><strong>Date:</strong> {{ $conference->date }}</p>
-                    <p><strong>Location:</strong> {{ $conference->location }}</p>
+    <h2>Domantas Kuzinas (PIT-22)</h2>
 
-                    <!-- View button to see conference details -->
-                    <a href="{{ route('conferences.show', $conference->id) }}" class="btn btn-info">View</a>
-                    
-                    <!-- Register button to register for the conference -->
-                    <button type="button" class="btn btn-primary">
-                        <a href="{{ route('conferences.showRegistrationForm', $conference->id) }}" style="color: white; text-decoration: none;">
-                            Join
-                        </a>
-                    </button>
-
-                    <!-- Edit button to edit the conference -->
-                    <a href="{{ route('conferences.edit', $conference->id) }}" class="btn btn-warning">Edit</a>
-
-                    <!-- Remove button with confirmation -->
-                    <form action="{{ route('conferences.destroy', $conference->id) }}" method="POST" class="d-inline">
-                        @csrf
-                        @method('DELETE') <!-- Use DELETE method -->
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to remove this conference?');">
-                            Remove
-                        </button>
-                    </form>
-                </div>
-            @endforeach
+    <!-- Display Success Message -->
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
         </div>
     @endif
+
+    @if($conferences->isEmpty())
+        <p>There are currently no conferences planned.</p>
+    @else
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($conferences as $conference)
+                    <tr>
+                        <td>{{ $conference->title }}</td>
+                        <td>{{ $conference->description }}</td>
+                        <td>{{ \Carbon\Carbon::parse($conference->date)->format('d-m-Y') }}</td>
+                        <td>{{ $conference->location }}</td>
+                        <td>
+                            <a href="{{ route('conferences.show', $conference->id) }}" class="btn btn-info">View</a>
+                            <a href="{{ route('conferences.edit', $conference->id) }}" class="btn btn-warning">Edit</a>
+                            <form action="{{ route('conferences.destroy', $conference->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Remove</button>
+                            </form>
+                            <a href="{{ route('conferences.showRegistrationForm', $conference->id) }}" class="btn btn-success">Join</a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
+
+    <!-- Create New Conference Button -->
+    <div class="mt-4">
+        <a href="{{ route('conferences.create') }}" class="btn btn-primary">Create a New Conference</a>
+    </div>
 </div>
 @endsection
